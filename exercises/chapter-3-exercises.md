@@ -6,7 +6,7 @@
 6. How does `tf.gather` differ from `tf.gather_nd`?
 7. Implement `gather_nd` operation using NumPy. Consider converting multi-index to flat index first.
 8. Given a square matrix of shape `(5, 5)` (e.g. `np.arange(25).reshape(5, 5)`), set diagonal entries to zeros using NumPy.
-9. Using PyTorch to implement a more general version of the above exercise, which we call `setting_diagonal_to_values`. Use `torch.scatter_*` operations.
+9. Using PyTorch to implement a version of the above exercise generalized to multi-dimensional tensors whose diagonal needs to be filled with arbitrary values, which we call `setting_diagonal_to_value`. Use `torch.index_put` operations.
 10. Create a checkerboard pattern using put and scatter operations. The odd entries (in terms of flat index) are positive values, the even entries are negative values. For example:
 
 ```python
