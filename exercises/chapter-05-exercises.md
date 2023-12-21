@@ -1,6 +1,6 @@
-1. Implement one-hot encoding in NumPy given the hint `np.eye(num_values)[index]`.
+1. Implement one-hot encoding in NumPy using `np.eye`, given the inputs `num_values` and `index`.
 2. Construct a upper triangular mask that is two entries above the diagonal of a 7x7 matrix.
-3. Compare the performance of boolean vs. multiplication method of applying a mask to a 2D matrix. Let `X` be a large square matrix and `mask` be the non-diagonal entries of the matrix, which can either be a boolean value or a 0/1 value. Use `%timeit` to compare the performance of `X[~mask] = 0` vs. `X * mask` vs. `np.where(mask, X, 0)`. Make a plot of the matrix size vs. the time it takes to apply the mask.
+3. Compare the performance of boolean vs. multiplication method of applying a mask to a set the diagonal entries of a 2D matrix to zero. Let `X` be a large square matrix and `mask` be the non-diagonal entries of the matrix, which can either be a boolean value or a 0/1 value. Use the `time` package to compare the performance of `X[~mask] = 0` vs. `X * mask` vs. `np.where(mask, X, 0)`. Make a plot of the matrix size vs. the time it takes to apply the mask.
 4. Implement `XOR` using combinations of `AND` (`&`), `OR` (`|`) and `NOT` (`~`), i.e. `a ^ b = (a | b) & ~(a & b)`, given `a` and `b` are boolean tensors with identical shape.
 5. Use `combine_mask` to merge the following two masks with `OR` operation.
 

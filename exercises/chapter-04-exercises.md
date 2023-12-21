@@ -31,5 +31,5 @@ x = np.random.multivariate_normal(
 import numpy as np
 x = np.random.rand(500) * 10
 x = np.sort(x)
-Y = 0.2 * np.exp(-3 * x) + 0.9 * np.exp(-0.5 * x) + 0.05 * np.random.randn(500)
+y = 0.2 * np.exp(-3 * x) + 0.9 * np.exp(-0.5 * x) + 0.05 * np.random.randn(500)
 ```
