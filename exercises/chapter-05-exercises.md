@@ -10,19 +10,19 @@ mask2 = np.array([[0, 0, 1], [0, 1, 0], [1, 0, 0]])
 ```
 
 6. Compute the average of the top-3 values of each row of the following matrix: `[[0.6, 0.3, 0.7, 0.9, 0.8, 0.4], [0.1, 0.2, 0.3, 0.5, 0.4, 0.8]]` (Hint: use `top_k_masking` to mask out all but the top 3 values, then sum together each row and divide by 3).
-7. Pad the rows of the following matrix with average of the row using NumPy's `np.pad` method, to 5 entries. `[[1, 5, 2, 3], [6, 3, 8, 7]]`.
+7. Pad the rows of the following matrix with average of the row using NumPy's `np.pad` method, to 5 entries each row. `[[1, 5, 2, 4], [6, 3, 8, 7]]`.
 8. Apply `align_lengths` to the following data
 
 ```python
 X = np.array([[1, 2, 3], [4, 5, 6]])
-y = np.array([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6])
+y = np.array([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]])
 ```
 
 and
 
 ```python
 X = np.array([[1, 2, 3], [4, 5, 6]])
-y = np.array([1, 2], [1, 2])
+y = np.array([[1, 2], [1, 2]])
 ```
 
 9. Apply softmax to the array `[0.5, 0.8, -1e9, 0.7]`. What is the value of the third entry after softmax activation? Consider why we need to use a large negative number as the masked value, instead of setting the masked value to zero after softmax. Discuss pros and cons of each approach.

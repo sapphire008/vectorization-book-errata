@@ -99,23 +99,65 @@ combine_mask(mask1, mask2, operation="or")
 
 ```python
 import numpy as np
-# TODO: 
+# TODO: import top_k_masking
+
+mat = np.array([
+	[0.6, 0.3, 0.7, 0.9, 0.8, 0.4],
+	[0.1, 0.2, 0.3, 0.5, 0.4, 0.8]
+])
+masked_mat = top_k_masking(mat, top_k=3)
+mat_avg = masked_mat.sum(axis=1) / 3
+# array([0.8       , 0.56666667])
 ```
 
-7. Pad the rows of the following matrix with average of the row using NumPy's `np.pad` method, to 5 entries. `[[1, 5, 2, 3], [6, 3, 8, 7]]`.
+7. Pad the rows of the following matrix with average of the row using NumPy's `np.pad` method, to 5 entries each row. `[[1, 5, 2, 4], [6, 3, 8, 7]]`.
+
+```python
+import numpy as np
+arr = np.array([[1, 5, 2, 4], [6, 3, 8, 7]])
+arr = np.pad(arr, [[0, 0], [0, 1]], mode="mean")
+# array([[1, 5, 2, 4, 3],
+#        [6, 3, 8, 7, 6]])
+```
+
 8. Apply `align_lengths` to the following data
 
 ```python
 X = np.array([[1, 2, 3], [4, 5, 6]])
-y = np.array([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6])
+y = np.array([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]])
 ```
 
 and
 
 ```python
 X = np.array([[1, 2, 3], [4, 5, 6]])
-y = np.array([1, 2], [1, 2])
+y = np.array([[1, 2], [1, 2]])
 ```
 
+```python
+import numpy as np
+# TODO: import align_lengths
+
+X = np.array([[1, 2, 3], [4, 5, 6]])
+y = np.array([[1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 6]])
+z = align_lengths(X, y)
+# array([[1, 2, 3],
+#        [1, 2, 3]])
+
+X = np.array([[1, 2, 3], [4, 5, 6]])
+y = np.array([[1, 2], [1, 2]])
+z = align_lengths(X, y)
+# array([[1, 2, 0],
+#        [1, 2, 0]])
+
+```
+
+
 9. Apply softmax to the array `[0.5, 0.8, -1e9, 0.7]`. What is the value of the third entry after softmax activation? Consider why we need to use a large negative number as the masked value, instead of setting the masked value to zero after softmax. Discuss pros and cons of each approach.
+
+After softmax activation, the third entry becomes a value near zero. This is a trick for masking values before softmax activaiton, such that after softmax activation, the sum of all entries are still close to 1. If we mask to zero before hand, and then take softmax, then the masked values will no longer be 0 (i.e. 0.5 instead). If we then mask these values again to zero, then the rest of the entries will no longer sum to 1.0.
+
+
 10. Consider the function `ragged_range` that we implemented in this chapter. Suppose the input `n = [5, 2, 3, 1000]`, where the last array has length significantly greater than that of the rest. What would happen in this case? What is the maximum memory that would be used when creating the ragged range array?
+
+In the intermediate step of creating the variable length list, we will create a matrix of shape `(4, 1000)`, where rows index 0 to 2 will only have several valid entries. This can consume a large amount of memory if our batch size is larger, i.e. having more rows of data. In later chapters, we will introduce more efficient way to implement this function.
