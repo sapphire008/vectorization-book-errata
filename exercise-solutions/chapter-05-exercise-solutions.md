@@ -60,7 +60,7 @@ ax.set_label("Input Size")
 ax.set_ylabel("Time (sec)")
 ```
 
-![Masking](./chapter-05-masking-performance.svg)
+![Masking](./assets/chapter-05-masking-performance.svg)
 
 
 4. Implement `XOR` using combinations of `AND` (`&`), `OR` (`|`) and `NOT` (`~`), i.e. `a ^ b = (a | b) & ~(a & b)`, given `a` and `b` are boolean tensors with identical shape.

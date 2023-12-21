@@ -98,10 +98,9 @@ ax.plot(sizes[:len(time_taken2)], time_taken2, label="np.corrcoef")
 ax.set_xlabel("Size")
 ax.set_ylabel("Time (sec)")
 ax.set_xscale("log")
-fig.savefig("./Cross-Corr.svg", dpi=300, bbox_inches="tight")
 ```
 
-![Correlation.](./chapter-04-Cross-Corr.svg)
+![Correlation.](./assets/chapter-04-Cross-Corr.svg)
 
 
 7. What is the difference between inverse and Penrose-Moore pseudo-inverse? Illustrate the results given a random square matrix to be inverted.
@@ -153,7 +152,7 @@ ax.set_xlabel("component 1")
 ax.set_ylabel("component 2")
 ```
 
-![PCA](./chapter-04-pca.svg)
+![PCA](./assets/chapter-04-pca.svg)
 
 9. Implement double-exponential curve fitting as described by the book "Regressions et Equations Integrale".
 
@@ -255,4 +254,4 @@ ax.set_ylabel("y")
 ax.legend()
 ```
 
-![Fit double exponential curve.](./chapter-04-fit-double-exp.svg)
+![Fit double exponential curve.](./assets/chapter-04-fit-double-exp.svg)
