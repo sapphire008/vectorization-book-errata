@@ -1,6 +1,6 @@
 1. Suppose we have a NumPy array of strings, `A = np.array(["1", "12", "123"])`. The dtype of the array is then `<U3`. If we add one more element `"1234"` to the end of the array, what would the dtype of the array be?
 2. Try to run `pd.Series(["a", "b", "c", "d", "e"], dtype="my_dtype")`. What is going to happen?
-3. Try using Python string method `.decode("utf")` to convert bytes to string. For example, `np.array([b"hello", b"world"])`. How does the performance compare to `.astype(str)` if the list is very long, e.g. `np.array([b"hello", b"world"]*1000)`?
+3. Try using Python string method `.decode("utf")` to convert bytes to string. For example, `np.array([b"hello", b"world"])`. How does the performance compare to `.astype(str)` if the list is very long, e.g. `np.array([b"hello", b"world"]*10000)`?
 4. Apply `pd.to_numeric` to the following data: `["1", "2", "a", "b", "8"]`. What are the results. What if we set the argument `errors="coerce"`?
 5. Implement the following program using Tensorflow's string processing routines: Split the sentence based on space, then lower-casing each word.
 
