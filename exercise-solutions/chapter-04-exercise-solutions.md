@@ -101,7 +101,7 @@ ax.set_xscale("log")
 fig.savefig("./Cross-Corr.svg", dpi=300, bbox_inches="tight")
 ```
 
-![Correlation.](./Cross-Corr.svg)
+![Correlation.](./chapter-04-Cross-Corr.svg)
 
 
 7. What is the difference between inverse and Penrose-Moore pseudo-inverse? Illustrate the results given a random square matrix to be inverted.
