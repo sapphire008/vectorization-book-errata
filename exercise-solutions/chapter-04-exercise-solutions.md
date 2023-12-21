@@ -101,26 +101,64 @@ ax.set_xscale("log")
 fig.savefig("./Cross-Corr.svg", dpi=300, bbox_inches="tight")
 ```
 
-![Correlation.](../assets/Cross-Corr.svg)
+![Correlation.](./Cross-Corr.svg)
 
 
-7. What is the difference between inverse and Penrose-Moore pseudo-inverse? Illustrate the difference in results given a random square matrix to be inverted.
+7. What is the difference between inverse and Penrose-Moore pseudo-inverse? Illustrate the results given a random square matrix to be inverted.
 
+The inverse of the matrix can only be computed on square matrices. By contrast, psudo-inverse can be computed on matrices of arbitrary sizes.
 
+```python
+import numpy as np
+x = np.random.randn(5, 5)
+x_inverse = np.linalg.inv(x)
+x_pseudo_inverse = np.linalg.pinv(x)
+```
+
+In the case of square matrix, the results are identical.
 
 
 8. Use Singular Value Decomposition (SVD) to perform Principal Component Analysis (PCA) on the following data points. Plot the main axes of the components.
 
 ```python
 import numpy as np
-x  = np.random.multivariate_normal(
+x = np.random.multivariate_normal(
     mean=[-1, 1], 
-    cov=[[0.2, 0.6], [0.6, 0.2]], 
+    cov=[[0.3, 0.4], [0.4, 0.3]], 
     size=5000
 )
 ```
 
+```python
+import numpy as np
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.random.multivariate_normal(
+    mean=[-1, 1], 
+    cov=[[0.3, 0.4], [0.4, 0.3]], 
+    size=5000
+)
+x = x - x.mean(axis=0, keepdims=True)
+
+U, S, Vh = np.linalg.svd(x)
+variance = np.sqrt(S**2 / 5000)
+components = variance[:, None] * Vh
+
+fig, ax = plt.subplots(1, 1)
+ax.scatter(x[:, 0], x[:, 1])
+ax.arrow(0, 0, components[0, 0], components[0, 1], color="red", head_width=0.1)
+ax.arrow(0, 0, components[1, 0], components[1, 1], color="red", head_width=0.1)
+ax.set_aspect("equal")
+ax.set_xlabel("component 1")
+ax.set_ylabel("component 2")
+```
+
+![PCA](./chapter-04-pca.svg)
+
 9. Implement double-exponential curve fitting as described by the book "Regressions et Equations Integrale".
+
+
+
 10. Try to fit the following data points using the double-exponential curve fitting method.
 
 ```python
