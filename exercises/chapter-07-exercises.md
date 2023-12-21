@@ -2,6 +2,7 @@
 2. Given the following row, col, and data arrays, create a `csr_matrix` (Hint: starts with a `coo_matrix`):
 
 ```python
+import numpy as np
 row = np.array([0, 0, 1, 2, 2, 2])
 col = np.array([0, 2, 1, 3, 4, 6])
 data = np.array([1, 2, 3, 4, 5, 6])
@@ -11,9 +12,8 @@ shape = (4, 8)
 3. Compare memory usage of the dense and sparse representations of the following matrix:
 
 ```python
-A = np.random.randint(1, 10, size=(1000, 1000), dtype=int)
-A[A < 8] = 0
-A_sp = coo_matrix(A)
+import numpy as np
+from scipy.sparse import coo_matrix
 ```
 
 To find out the total bytes of a NumPy array, use `A.nbytes`. Similarly, to find out the total bytes of a sparse matrix, use `A_sp.data.nbytes + A_sp.row.nbytes + A_sp.col.nbytes`.
@@ -21,6 +21,8 @@ To find out the total bytes of a NumPy array, use `A.nbytes`. Similarly, to find
 4. Compare the memory usage of the dense and sparse representation of the following matrix
 
 ```python
+import numpy as np
+from scipy.sparse import coo_matrix
 B = np.random.randint(1, 10, size=(1000, 1000), dtype=int)
 B[B < 1] = 0
 B_sp = coo_matrix(B)
@@ -28,7 +30,7 @@ B_sp = coo_matrix(B)
 
 Together with Question #3, readers can get a sense when sparse matrix is (or is not) more memory efficient than dense matrix.
 
-5. Min-max normalize (to values between 0 and 1) the rows of the following sparse matrix, given its dense data (0s as the sparse entries; Hint: using column-wise broadcasting)
+5. Add each row of the following matrix by the number of non-zero elements. Hint: using column-wise broadcasting and `.getnnz` method.
 
 ```python
 X = np.array([
@@ -38,7 +40,6 @@ X = np.array([
     [0, 3, 0, 0, 1],
     [0, 1, 0, 0, 2]
 ])
-
 ```
 
 6. Write a function that can convert Scipy's `coo_matrix` into `tf.SparseTensor`.
@@ -54,7 +55,15 @@ X = tf.constant([
 ])
 ```
 
-8. Do some research and find out what Compressed Sparse Fiber format is (implemented by PyTorch).
+8. Construct a PyTorch coo sparse tensor using the following indices. Then convert to a csr sparse tensor.
+
+```python
+row = [0, 0, 0, 0, 1, 1, 1]
+col = [0, 1, 3, 5, 1, 2, 4]
+data = [1, 2, 3, 4, 5, 6, 7]
+shape = (3, 10)
+```
+
 9. Tune Alternating Least Squares (ALS) model on the MovieLens dataset. How is the latent feature size `K` and regularization term `l2_reg` trading off?
 10. Use ALS for image completion. The reader can start with the following code snippet:
 
