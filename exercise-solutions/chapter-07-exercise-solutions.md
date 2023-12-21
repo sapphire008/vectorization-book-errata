@@ -161,7 +161,7 @@ coo_sparse = torch.torch.sparse_coo_tensor(
     values=data,
     size=shape,
     dtype=torch.int32,
-)
+).coalesce()
 
 csr_sparse = coo_sparse.to_sparse_csr()
 ```
