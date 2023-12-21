@@ -157,7 +157,68 @@ ax.set_ylabel("component 2")
 
 9. Implement double-exponential curve fitting as described by the book "Regressions et Equations Integrale".
 
+```python
+def fit_double_exp(x, y):
+    """
+    Fitting y = b * exp(p * x) + c * exp(q * x)
+    Implemented based on:
+        Regressions et Equations Integrales by Jean Jacquelin
+    Assuming x and y are sorted ascendingly.
+    """
+    # Start algorithm
+    n = len(x)
+    S = np.zeros_like(x)
+    S[1:] = 0.5 * (y[:-1] + y[1:]) * np.diff(x)
+    S = np.cumsum(S)
+    SS = np.zeros_like(x)
+    SS[1:] = 0.5 * (S[:-1] + S[1:]) * np.diff(x)
+    SS = np.cumsum(SS)
 
+    # Getting the parameters
+    M = np.empty((4, 4))
+    N = np.empty((4, 1))
+
+    M[:, 0] = np.array([np.sum(SS**2), np.sum(SS * S), np.sum(SS * x), np.sum(SS)])
+
+    M[0, 1] = M[1, 0]
+    M[1:,1] = np.array([np.sum(S**2),  np.sum(S * x), np.sum(S)])
+
+    M[:2,2] = M[2, :2]
+    M[2, 2] = np.sum(x**2)
+    M[3, 2] = np.sum(x)
+
+    M[:3,3] = M[3,:3]
+    M[2, 3] = M[3, 2]
+    M[3, 3] = n
+
+    N[:, 0] = np.array([np.sum(SS * y), np.sum(S * y), np.sum(x * y), np.sum(y)])
+
+    # Regression for p and q
+    ABCD = np.matmul(np.linalg.inv(M), N)
+    #set_trace()
+    A, B, C, D = ABCD.flatten()
+    p = 0.5 * (B + np.sqrt(B**2 + 4 * A))
+    q = 0.5 * (B - np.sqrt(B**2 + 4 * A))
+
+     # Regression for b, c
+    I = np.empty((2, 2))
+    J = np.empty((2, 1))
+
+    beta = np.exp(p * x)
+    eta  = np.exp(q * x)
+    I[0, 0] = np.sum(beta**2)
+    I[1, 0] = np.sum(beta * eta)
+    I[0, 1] = I[1, 0]
+    I[1, 1] = np.sum(eta**2)
+
+
+    J[:, 0] = [np.sum(y * beta), np.sum(y * eta)]
+
+    bc = np.matmul(np.linalg.inv(I), J)
+    b, c = bc.flatten()
+
+    return b, c, p, q
+```
 
 10. Try to fit the following data points using the double-exponential curve fitting method.
 
@@ -167,3 +228,31 @@ x = np.random.rand(500) * 10
 x = np.sort(x)
 Y = 0.2 * np.exp(-3 * x) + 0.9 * np.exp(-0.5 * x) + 0.05 * np.random.randn(500)
 ```
+
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+# TODO: import fit_double_exp
+
+x = np.random.rand(500) * 10
+x = np.sort(x)
+y = 0.2 * np.exp(-3 * x) + 0.9 * np.exp(-0.5 * x) + 0.05 * np.random.randn(500)
+
+# Fit the model
+b, c, p, q = fit_double_exp(x, y)
+
+# Predict the fitted curve
+x_fit = np.linspace(0, 10, 100)
+y_fit = b * np.exp(p * x_fit) + c * np.exp(q * x_fit)
+
+# Plot
+fig, ax = plt.subplots(1, 1)
+ax.scatter(x, y)
+ax.plot(x_fit, y_fit, color="red", label="fitted")
+ax.set_xlabel("x")
+ax.set_ylabel("y")
+ax.legend()
+```
+
+![Fit double exponential curve.](./chapter-04-fit-double-exp.svg)
