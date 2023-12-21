@@ -216,5 +216,5 @@ ax.imshow(R_hat, cmap='gray', interpolation='none')
 ax.set_title("Recovered")
 ```
 
-![ALS image completion](./assets/chapter-07-als-image-completion.svg)
+![ALS image completion](./assets/chapter-07-als-image-completion.png)
 
