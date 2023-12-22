@@ -12,7 +12,7 @@
     
     What is the result? Is this expected? Try to verify it using a simple Python for-loop.
 7. Try to implement the logic of `tf_sparse_segment_prod` using PyTorch with `torch.scatter_add`.
-8. Draw a schematic diagram `torch_scatter_reduce_sqrt_n`. Is there an alternative way to implement this function, using `torch.segment_reduce`?
+8. Is there an alternative way to implement the function `torch_scatter_reduce_sqrt_n`, using `torch.segment_reduce`?
 9. Consider the relationships between sparse tensors, jagged tensors, and the segment-wise operations. What are the advantages and disadvantages of each?
 10. Various types of positional encoding / embedding schemes have been proposed since the original Transformer paper. One way to encode positions is to use learned embeddings (where the positions are treated as categorical / ordinal features). Try to implement an embedding based positional encodings in PyTorch. Replace the sinusoidal encoding with the learnable embeddings in the ViT model and try to retrain the model. How does the performance change?
 
