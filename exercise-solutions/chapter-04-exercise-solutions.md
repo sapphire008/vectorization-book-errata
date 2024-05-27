@@ -67,37 +67,54 @@ z = np.tensordot(x, y, axes=[(2), (0)])
 ```
 
 
-6. Compare the performance of `faster_cross_corr` with `np.corrcoef`. Plot the time taken for each function as a function of the size of the input.
+6. Compare the performance of `faster_cross_corr` with `np.corrcoef` and `pd.DataFrame.corr` to compute pairwise cross-correlation between features. Suppose the features are stored in a matrix of size `num_samples x feature_size` matrix. Plot the time taken for each method as a function of the `feature_size`.
 
 ```python
 import time
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-# TODO: import faster_cross_corr
+import faster_cross_corr
 
-time_taken1 = []
-time_taken2 = []
-sizes = np.logspace(1, 5, num=100, base=10, dtype=int)
-for ii in tqdm(sizes):
-    x = np.random.randn(100, ii)
-    y = np.random.randn(100, 15)
-    tnow = time.time()
-    faster_cross_corr(x, y)
-    time_taken1.append(time.time() - tnow)
+num_trials = 30
+num_samples = 100
+time_taken1 = np.zeros((num_trials, num_samples))
+time_taken2 = np.zeros((num_trials, num_samples))
+time_taken3 = np.zeros((num_trials, num_samples))
+sizes = np.logspace(1, 3, num=num_samples, base=10, dtype=int)
 
-    if ii > 10_000:
-        continue
-    tnow = time.time()
-    np.corrcoef(x, y, rowvar=False)[:ii, ii:]
-    time_taken2.append(time.time() - tnow)
+for trial in tqdm(range(num_trials)):
+    for ii, size in tqdm(enumerate(sizes)):
+        x = np.random.randn(1000, size)
+        tnow = time.time()
+        faster_cross_corr(x, x)
+        time_taken1[trial, ii] = time.time() - tnow
+        # np.corrcoef
+        tnow = time.time()
+        np.corrcoef(x, x, rowvar=False)[:size, size:]
+        time_taken2[trial, ii] = time.time() - tnow
+        # pd.DataFrame.corr
+        df = pd.DataFrame(x)
+        tnow = time.time()
+        df.corr()
+        time_taken3[trial, ii] = time.time() - tnow
+   
+time_taken1 = time_taken1.mean(axis=0)
+time_taken2 = time_taken2.mean(axis=0)
+time_taken3 = time_taken3.mean(axis=0)
+
 
 fig, ax = plt.subplots(1, 1)
-ax.plot(sizes[:len(time_taken1)], time_taken1, label="faster_cross_corr")
-ax.plot(sizes[:len(time_taken2)], time_taken2, label="np.corrcoef")
+ax.plot(sizes, time_taken1, label="faster_cross_corr")
+ax.plot(sizes, time_taken2, label="np.corrcoef")
+ax.plot(sizes, time_taken3, label="df.corr")
+
+ax.legend()
 ax.set_xlabel("Size")
 ax.set_ylabel("Time (sec)")
 ax.set_xscale("log")
+ax.set_yscale("log")
 ```
 
 ![Correlation.](./assets/chapter-04-Cross-Corr.svg)
